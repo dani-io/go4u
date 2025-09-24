@@ -108,5 +108,7 @@ Push & create PR
 📄 License
 
 MIT © Go4u
+📖 Read this in other languages:  
+- [فارسی (Persian)](./README.fa.md)
 
 
