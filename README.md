@@ -104,11 +104,8 @@ Create a feature branch (git checkout -b feature/my-feature)
 Commit with clear messages (git commit -m "feat: add contract viewer")
 
 Push & create PR
-
+---
 📄 License
 
 MIT © Go4u
-📖 Read this in other languages:  
-- [فارسی (Persian)](./README.fa.md)
-
 
