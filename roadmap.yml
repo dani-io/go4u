@@ -1,0 +1,819 @@
+# Go4u — Project Roadmap
+# This file is the single source of truth for all project tasks and milestones
+# Use scripts/sync-roadmap.js to sync with GitHub Issues
+
+metadata:
+  project_name: "Go4u"
+  repo: "dani-io/go4u"
+  github_project_number: 2
+  version: "1.0.0"
+
+# ============================================
+# MILESTONES
+# ============================================
+milestones:
+  - id: foundation
+    title: "Phase 0 — Foundation"
+    description: "Repository setup, docs, local dev environment"
+    due_date: "2025-11-01"
+    status: "in_progress"
+
+  - id: mvp
+    title: "Phase 1 — MVP"
+    description: "Core features: Tasks, Chat, Wallet, Contracts"
+    due_date: "2026-02-01"
+    status: "planned"
+
+  - id: production
+    title: "Phase 2 — Production Launch"
+    description: "Payments, Referrals, Admin, Trust & Safety"
+    due_date: "2026-05-01"
+    status: "planned"
+
+  - id: scaling
+    title: "Phase 3 — Scaling"
+    description: "Discovery, B2B, Live Sessions, Advanced Analytics"
+    due_date: "2026-11-01"
+    status: "planned"
+
+# ============================================
+# LABELS
+# ============================================
+labels:
+  - name: "MVP"
+    color: "d73a4a"
+    description: "Must-have for MVP launch"
+  
+  - name: "Phase-1"
+    color: "0075ca"
+    description: "Phase 1 feature"
+  
+  - name: "Phase-2"
+    color: "1d76db"
+    description: "Phase 2 feature"
+  
+  - name: "Phase-3"
+    color: "0e8a16"
+    description: "Phase 3 feature"
+  
+  - name: "priority:high"
+    color: "b60205"
+    description: "High priority"
+  
+  - name: "priority:medium"
+    color: "fbca04"
+    description: "Medium priority"
+  
+  - name: "priority:low"
+    color: "d4c5f9"
+    description: "Low priority"
+  
+  - name: "type:feature"
+    color: "a2eeef"
+    description: "New feature"
+  
+  - name: "type:bug"
+    color: "d73a4a"
+    description: "Bug fix"
+  
+  - name: "type:docs"
+    color: "0075ca"
+    description: "Documentation"
+  
+  - name: "type:infra"
+    color: "fbca04"
+    description: "Infrastructure/DevOps"
+  
+  - name: "area:backend"
+    color: "c5def5"
+    description: "Backend related"
+  
+  - name: "area:frontend"
+    color: "f9d0c4"
+    description: "Frontend related"
+  
+  - name: "area:database"
+    color: "fef2c0"
+    description: "Database related"
+  
+  - name: "area:security"
+    color: "b60205"
+    description: "Security related"
+  
+  - name: "blocked"
+    color: "d93f0b"
+    description: "Blocked by dependencies"
+
+# ============================================
+# TASKS (Issues)
+# ============================================
+tasks:
+  # ========== PHASE 0: FOUNDATION ==========
+  - id: task-001
+    title: "Setup GitHub Project Board"
+    description: |
+      Create and configure GitHub Project with proper columns and automation.
+      
+      **Acceptance Criteria:**
+      - [ ] Project board created with columns: Backlog, To Do, In Progress, Review, Done
+      - [ ] Automation rules configured (auto-move on PR merge)
+      - [ ] Labels imported from roadmap.yml
+      - [ ] Milestones created
+      
+      **Resources:**
+      - [GitHub Projects Docs](https://docs.github.com/en/issues/planning-and-tracking-with-projects)
+    labels:
+      - "type:infra"
+      - "priority:high"
+      - "MVP"
+    milestone: "foundation"
+    assignees: []
+    estimate: 2
+
+  - id: task-002
+    title: "Fix Database Schema Inconsistencies"
+    description: |
+      Standardize wallet field naming and add missing constraints.
+      
+      **Changes:**
+      - Rename `balAvail` → `balanceAvailableCents`
+      - Rename `balOnHold` → `balanceOnHoldCents`
+      - Add `@unique` constraint to `WalletLedger.ref`
+      - Standardize all mappings to snake_case
+      
+      **Acceptance Criteria:**
+      - [ ] Schema updated in `prisma/schema.prisma`
+      - [ ] Migration created with `prisma migrate dev`
+      - [ ] No breaking changes in existing code
+      - [ ] Tests pass
+      
+      **Related Docs:**
+      - `/docs/data/DATABASE.md`
+      - `/docs/data/MIGRATION_GUIDE.md`
+    labels:
+      - "area:database"
+      - "type:feature"
+      - "priority:high"
+      - "MVP"
+    milestone: "foundation"
+    assignees: []
+    estimate: 3
+
+  - id: task-003
+    title: "Complete .env.example with All Required Variables"
+    description: |
+      Add missing environment variables to .env.example template.
+      
+      **Missing Variables:**
+      - GEMINI_API_KEY (for AI polish/contracts)
+      - PNPM_VERSION
+      - All feature flags explicitly listed
+      - TURN/STUN URLs for live sessions
+      
+      **Acceptance Criteria:**
+      - [ ] All vars documented in ENVIRONMENT_VARS.md are in .env.example
+      - [ ] Each var has descriptive comment
+      - [ ] Example values provided (safe placeholders)
+      - [ ] Grouped by category
+      
+      **Related Docs:**
+      - `/docs/infra/ENVIRONMENT_VARS.md`
+    labels:
+      - "area:backend"
+      - "type:docs"
+      - "priority:high"
+      - "MVP"
+    milestone: "foundation"
+    assignees: []
+    estimate: 2
+
+  - id: task-004
+    title: "Setup Local Development Environment with Docker"
+    description: |
+      Create docker-compose.yml for local PostgreSQL + Redis.
+      
+      **Acceptance Criteria:**
+      - [ ] docker-compose.yml created
+      - [ ] PostgreSQL 16 service configured
+      - [ ] Redis 7 service configured
+      - [ ] Persistent volumes for data
+      - [ ] Health checks added
+      - [ ] README.md updated with setup instructions
+      
+      **Commands to test:**
+      ```bash
+      docker compose up -d
+      pnpm prisma migrate dev
+      pnpm dev
+      ```
+    labels:
+      - "area:backend"
+      - "type:infra"
+      - "priority:high"
+      - "MVP"
+    milestone: "foundation"
+    assignees: []
+    estimate: 3
+
+  - id: task-005
+    title: "Create Testing Strategy Documentation"
+    description: |
+      Document testing approach for unit, integration, and E2E tests.
+      
+      **New File:** `/docs/testing/TESTING_STRATEGY.md`
+      
+      **Sections:**
+      - Unit testing (Vitest)
+      - Integration testing (API endpoints)
+      - E2E testing (Playwright)
+      - Coverage thresholds
+      - CI/CD integration
+      
+      **Acceptance Criteria:**
+      - [ ] Document created with examples
+      - [ ] Test structure defined
+      - [ ] Coverage requirements documented (80%)
+      - [ ] Tools selected and justified
+    labels:
+      - "type:docs"
+      - "priority:medium"
+      - "MVP"
+    milestone: "foundation"
+    assignees: []
+    estimate: 4
+
+  # ========== PHASE 1: MVP CORE ==========
+  - id: task-101
+    title: "Implement User Authentication (NextAuth)"
+    description: |
+      Setup NextAuth.js with JWT and session management.
+      
+      **Features:**
+      - Email/password login
+      - OAuth (Google) support
+      - Session management
+      - Role-based access control (requester/agent/admin)
+      
+      **Acceptance Criteria:**
+      - [ ] NextAuth configured
+      - [ ] Login/signup API routes
+      - [ ] Session middleware
+      - [ ] Protected route HOC
+      - [ ] Tests for auth flows
+      
+      **Related Docs:**
+      - `/docs/backend/API_SPEC.md` (Auth section)
+      - `/docs/security/SECURITY.md`
+    labels:
+      - "area:backend"
+      - "type:feature"
+      - "priority:high"
+      - "MVP"
+      - "Phase-1"
+    milestone: "mvp"
+    assignees: []
+    estimate: 8
+
+  - id: task-102
+    title: "Create Task Management API"
+    description: |
+      Build CRUD endpoints for tasks.
+      
+      **Endpoints:**
+      - POST /tasks (create)
+      - GET /tasks (list with filters)
+      - GET /tasks/:id (details)
+      - PATCH /tasks/:id (update)
+      - DELETE /tasks/:id (soft delete)
+      - POST /tasks/polish (AI enhancement)
+      
+      **Acceptance Criteria:**
+      - [ ] All endpoints implemented
+      - [ ] Prisma queries optimized
+      - [ ] Input validation with Zod
+      - [ ] Authorization checks
+      - [ ] Unit tests (80% coverage)
+      - [ ] API docs updated
+      
+      **Related Docs:**
+      - `/docs/backend/API_SPEC.md` (Tasks section)
+      - `/docs/data/DATABASE.md`
+    labels:
+      - "area:backend"
+      - "type:feature"
+      - "priority:high"
+      - "MVP"
+      - "Phase-1"
+    milestone: "mvp"
+    assignees: []
+    estimate: 13
+
+  - id: task-103
+    title: "Build Chat System with WebSocket"
+    description: |
+      Real-time messaging between requester and agent.
+      
+      **Features:**
+      - 1-to-1 chat per task
+      - Message history
+      - "Deal" button in chat
+      - Optional AI translation
+      
+      **Tech Stack:**
+      - WebSocket or Server-Sent Events
+      - Redis for pub/sub
+      
+      **Acceptance Criteria:**
+      - [ ] WebSocket connection established
+      - [ ] Message send/receive working
+      - [ ] Chat history persistence
+      - [ ] Deal button triggers event
+      - [ ] Translation API integrated (optional)
+      - [ ] E2E tests for chat flow
+      
+      **Related Docs:**
+      - `/docs/backend/API_SPEC.md` (Chat section)
+      - `/docs/backend/EVENT_CATALOG.md`
+    labels:
+      - "area:backend"
+      - "area:frontend"
+      - "type:feature"
+      - "priority:high"
+      - "MVP"
+      - "Phase-1"
+    milestone: "mvp"
+    assignees: []
+    estimate: 21
+
+  - id: task-104
+    title: "Implement Wallet with Escrow Logic"
+    description: |
+      Build wallet system with hold/release mechanics.
+      
+      **Features:**
+      - Wallet balance (available/on-hold/total)
+      - Escrow hold on deal confirmation
+      - Release after task done
+      - Refund on cancellation
+      - Double-entry ledger
+      
+      **Acceptance Criteria:**
+      - [ ] WalletAccount CRUD
+      - [ ] WalletLedger append-only entries
+      - [ ] WalletHold state machine
+      - [ ] Idempotency with ref key
+      - [ ] Balance invariants tested
+      - [ ] Audit logs for all transactions
+      
+      **Related Docs:**
+      - `/docs/backend/API_SPEC.md` (Wallet section)
+      - `/docs/data/DATABASE.md`
+      - `/docs/backend/EVENT_CATALOG.md`
+    labels:
+      - "area:backend"
+      - "type:feature"
+      - "priority:high"
+      - "MVP"
+      - "Phase-1"
+    milestone: "mvp"
+    assignees: []
+    estimate: 21
+
+  - id: task-105
+    title: "AI Contract Generation System"
+    description: |
+      Generate legal contracts from task + chat using Gemini API.
+      
+      **Features:**
+      - Extract task details + chat summary
+      - Call Gemini API for contract text
+      - Generate bilingual PDF (English + user locale)
+      - Store in S3 with signed URLs
+      - Hash for integrity
+      
+      **Acceptance Criteria:**
+      - [ ] Gemini API integrated
+      - [ ] PDF generation library (react-pdf or puppeteer)
+      - [ ] Bilingual template
+      - [ ] S3 upload with presigned URLs
+      - [ ] Contract API endpoint
+      - [ ] Tests with mock AI responses
+      
+      **Related Docs:**
+      - `/docs/backend/API_SPEC.md` (Contracts section)
+      - `/docs/data/DATABASE.md`
+    labels:
+      - "area:backend"
+      - "type:feature"
+      - "priority:high"
+      - "MVP"
+      - "Phase-1"
+    milestone: "mvp"
+    assignees: []
+    estimate: 13
+
+  - id: task-106
+    title: "Build Frontend UI (Home, Add Task, Dashboard)"
+    description: |
+      Implement core user-facing pages with Next.js App Router.
+      
+      **Pages:**
+      - Home (task feed)
+      - Add Task (form with AI polish)
+      - Dashboard (my tasks, wallet, contracts)
+      - Profile (settings, KYC status)
+      
+      **Tech Stack:**
+      - Next.js 15 App Router
+      - TailwindCSS + shadcn/ui
+      - React Hook Form + Zod
+      
+      **Acceptance Criteria:**
+      - [ ] All pages responsive (mobile-first)
+      - [ ] Forms validated
+      - [ ] Loading states with skeletons
+      - [ ] Error boundaries
+      - [ ] Accessibility (WCAG 2.1 AA)
+      - [ ] Lighthouse score > 90
+      
+      **Related Docs:**
+      - `/docs/ui/FRONTEND_UI_PWA.md`
+      - `/docs/ui/DESIGN_TOKENS.md`
+      - `/docs/ui/ACCESSIBILITY.md`
+    labels:
+      - "area:frontend"
+      - "type:feature"
+      - "priority:high"
+      - "MVP"
+      - "Phase-1"
+    milestone: "mvp"
+    assignees: []
+    estimate: 21
+
+  - id: task-107
+    title: "Setup Email Notifications with Postmark"
+    description: |
+      Integrate transactional email service.
+      
+      **Email Templates:**
+      - Welcome (signup)
+      - Deal confirmed
+      - Task done
+      - Payment received
+      - Escrow hold/release
+      
+      **Acceptance Criteria:**
+      - [ ] Postmark/Resend integrated
+      - [ ] Email templates created (HTML + text)
+      - [ ] Multilingual support (i18n)
+      - [ ] Event-driven sending (subscribe to events)
+      - [ ] Delivery tracking
+      - [ ] Tests with mock SMTP
+      
+      **Related Docs:**
+      - `/docs/growth/NOTIFICATIONS.md`
+      - `/docs/backend/EVENT_CATALOG.md`
+    labels:
+      - "area:backend"
+      - "type:feature"
+      - "priority:medium"
+      - "MVP"
+      - "Phase-1"
+    milestone: "mvp"
+    assignees: []
+    estimate: 8
+
+  - id: task-108
+    title: "Build Admin Panel"
+    description: |
+      Create admin dashboard for task/user/payment management.
+      
+      **Features:**
+      - User list with filters
+      - Task management
+      - Dispute resolution
+      - Payment audit logs
+      - Basic analytics
+      
+      **Access:**
+      - Route: `/admin`
+      - Role: admin only
+      - Audit all actions
+      
+      **Acceptance Criteria:**
+      - [ ] Admin layout with sidebar
+      - [ ] All tables with pagination
+      - [ ] Filters and search
+      - [ ] Action buttons (suspend, refund, etc.)
+      - [ ] Audit log viewer
+      
+      **Related Docs:**
+      - `/docs/backend/API_SPEC.md` (Admin section)
+      - `/docs/security/SECURITY.md`
+    labels:
+      - "area:frontend"
+      - "area:backend"
+      - "type:feature"
+      - "priority:medium"
+      - "MVP"
+      - "Phase-1"
+    milestone: "mvp"
+    assignees: []
+    estimate: 13
+
+  # ========== PHASE 2: PRODUCTION LAUNCH ==========
+  - id: task-201
+    title: "Integrate Stripe for Payments"
+    description: |
+      Add payment provider for deposits and withdrawals.
+      
+      **Features:**
+      - Checkout session for deposits
+      - Webhook handling
+      - Payout to agents (Stripe Connect)
+      - Multi-currency support
+      
+      **Acceptance Criteria:**
+      - [ ] Stripe SDK integrated
+      - [ ] Checkout API endpoint
+      - [ ] Webhook signature verification
+      - [ ] Payout API for agents
+      - [ ] Currency conversion (if needed)
+      - [ ] Tests with Stripe test mode
+      
+      **Related Docs:**
+      - `/docs/backend/API_SPEC.md` (Payments section)
+      - `/docs/infra/ENVIRONMENT_VARS.md`
+    labels:
+      - "area:backend"
+      - "type:feature"
+      - "priority:high"
+      - "Phase-2"
+    milestone: "production"
+    assignees: []
+    estimate: 13
+
+  - id: task-202
+    title: "Implement Referral Program"
+    description: |
+      Build invite-to-earn system with anti-fraud checks.
+      
+      **Features:**
+      - Generate referral codes
+      - Track invites and signups
+      - Qualify on first task completion
+      - Issue wallet credits
+      - Anti-abuse rules (device fingerprinting)
+      
+      **Acceptance Criteria:**
+      - [ ] Referral API endpoints
+      - [ ] Code generation logic
+      - [ ] Qualification tracking
+      - [ ] Wallet credit issuance
+      - [ ] Fraud detection hooks
+      - [ ] Analytics integration
+      
+      **Related Docs:**
+      - `/docs/growth/REFERRAL_PROGRAM.md`
+      - `/docs/backend/API_SPEC.md` (Referral section)
+      - `/docs/risk/RISK_ENGINE.md`
+    labels:
+      - "area:backend"
+      - "type:feature"
+      - "priority:medium"
+      - "Phase-2"
+    milestone: "production"
+    assignees: []
+    estimate: 13
+
+  - id: task-203
+    title: "Build Risk Engine for Fraud Detection"
+    description: |
+      Implement scoring system for users/tasks/payments.
+      
+      **Signals:**
+      - Device fingerprinting
+      - IP analysis
+      - Payment behavior
+      - Referral abuse
+      
+      **Acceptance Criteria:**
+      - [ ] Risk scoring algorithm
+      - [ ] Event subscribers (risk.flag.raised)
+      - [ ] Admin dashboard for flags
+      - [ ] Auto-block on high scores
+      - [ ] Manual review queue
+      
+      **Related Docs:**
+      - `/docs/risk/RISK_ENGINE.md`
+      - `/docs/backend/EVENT_CATALOG.md`
+    labels:
+      - "area:backend"
+      - "area:security"
+      - "type:feature"
+      - "priority:high"
+      - "Phase-2"
+    milestone: "production"
+    assignees: []
+    estimate: 21
+
+  - id: task-204
+    title: "Setup CI/CD Pipeline with GitHub Actions"
+    description: |
+      Automate testing and deployment.
+      
+      **Jobs:**
+      - Lint + TypeScript
+      - Unit tests
+      - Integration tests
+      - Build check
+      - Deploy to Vercel (staging/prod)
+      
+      **Acceptance Criteria:**
+      - [ ] .github/workflows/ci.yml created
+      - [ ] All checks run on PR
+      - [ ] Auto-deploy to staging on merge
+      - [ ] Manual approval for production
+      - [ ] Slack notifications on failures
+      
+      **Related Docs:**
+      - `/docs/infra/DEVOPS_CICD.md`
+      - `/docs/infra/DEPLOYMENT.md`
+    labels:
+      - "area:backend"
+      - "type:infra"
+      - "priority:high"
+      - "Phase-2"
+    milestone: "production"
+    assignees: []
+    estimate: 8
+
+  - id: task-205
+    title: "Implement Rating & Review System"
+    description: |
+      Two-sided review system for requesters and agents.
+      
+      **Features:**
+      - Post-completion reviews
+      - 1-5 star rating
+      - Text comments (moderated)
+      - Aggregate ratings on profiles
+      
+      **Acceptance Criteria:**
+      - [ ] Review API endpoints
+      - [ ] Review form in UI
+      - [ ] Aggregate calculation
+      - [ ] Moderation queue
+      - [ ] Display on profiles
+      
+      **Related Docs:**
+      - `/docs/marketplace/RATING_REVIEWS.md`
+      - `/docs/backend/API_SPEC.md`
+    labels:
+      - "area:backend"
+      - "area:frontend"
+      - "type:feature"
+      - "priority:medium"
+      - "Phase-2"
+    milestone: "production"
+    assignees: []
+    estimate: 13
+
+  # ========== PHASE 3: SCALING ==========
+  - id: task-301
+    title: "Build Discovery & Matching Engine"
+    description: |
+      Smart task-agent matching system.
+      
+      **Features:**
+      - Location-based filtering
+      - Category matching
+      - Rating-based sorting
+      - AI recommendations (future)
+      
+      **Acceptance Criteria:**
+      - [ ] Search API with filters
+      - [ ] Ranking algorithm
+      - [ ] UI for discovery
+      - [ ] Tests with sample data
+      
+      **Related Docs:**
+      - `/docs/marketplace/DISCOVERY_MATCHING.md`
+      - `/docs/backend/API_SPEC.md`
+    labels:
+      - "area:backend"
+      - "type:feature"
+      - "priority:medium"
+      - "Phase-3"
+    milestone: "scaling"
+    assignees: []
+    estimate: 21
+
+  - id: task-302
+    title: "Implement Live Video Sessions (LiveKit)"
+    description: |
+      Enable real-time video for agent representation.
+      
+      **Features:**
+      - One-way stream (agent → requester)
+      - Two-way video (optional)
+      - Recording (optional)
+      - WebRTC with TURN/STUN
+      
+      **Acceptance Criteria:**
+      - [ ] LiveKit SDK integrated
+      - [ ] Session API endpoints
+      - [ ] UI components for video
+      - [ ] Recording to S3
+      - [ ] Tests with mock streams
+      
+      **Related Docs:**
+      - `/docs/live/LIVE_INFRA.md`
+      - `/docs/backend/API_SPEC.md`
+    labels:
+      - "area:backend"
+      - "area:frontend"
+      - "type:feature"
+      - "priority:low"
+      - "Phase-3"
+    milestone: "scaling"
+    assignees: []
+    estimate: 34
+
+  - id: task-303
+    title: "Build B2B Features (Corporate Accounts)"
+    description: |
+      Enable companies to use Go4u for business tasks.
+      
+      **Features:**
+      - Company accounts
+      - Multi-user access
+      - Shared wallet
+      - Invoicing
+      
+      **Acceptance Criteria:**
+      - [ ] Company model in DB
+      - [ ] RBAC for company users
+      - [ ] Invoice generation
+      - [ ] Admin dashboard for companies
+      
+      **Related Docs:**
+      - `/docs/marketplace/B2B_MODE.md`
+      - `/docs/backend/API_SPEC.md`
+    labels:
+      - "area:backend"
+      - "type:feature"
+      - "priority:low"
+      - "Phase-3"
+    milestone: "scaling"
+    assignees: []
+    estimate: 34
+
+  - id: task-304
+    title: "Implement Loyalty & Badges System"
+    description: |
+      Gamification for user retention.
+      
+      **Features:**
+      - Badge definitions (Rising Star, Pro Agent, etc.)
+      - Auto-award logic
+      - Profile display
+      - Notifications
+      
+      **Acceptance Criteria:**
+      - [ ] Badge model in DB
+      - [ ] Award triggers (background jobs)
+      - [ ] UI for badges
+      - [ ] Analytics for badge impact
+      
+      **Related Docs:**
+      - `/docs/marketplace/LOYALTY_BADGES.md`
+      - `/docs/backend/API_SPEC.md`
+    labels:
+      - "area:backend"
+      - "area:frontend"
+      - "type:feature"
+      - "priority:low"
+      - "Phase-3"
+    milestone: "scaling"
+    assignees: []
+    estimate: 13
+
+# ============================================
+# DEPENDENCIES
+# ============================================
+dependencies:
+  - from: "task-102"  # Task API
+    to: "task-103"    # Chat (needs task context)
+  
+  - from: "task-102"  # Task API
+    to: "task-104"    # Wallet (escrow on task)
+  
+  - from: "task-104"  # Wallet
+    to: "task-201"    # Stripe (payment integration)
+  
+  - from: "task-101"  # Auth
+    to: "task-106"    # Frontend (needs auth context)
+  
+  - from: "task-004"  # Docker setup
+    to: "task-002"    # DB schema (needs running DB)
